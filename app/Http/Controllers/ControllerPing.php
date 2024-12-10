@@ -21,8 +21,18 @@ class ControllerPing extends Controller
             'dateFrom'=>'required|date_format:Y-m-d|before:dateTo',
             'dateTo'=>'required|date_format:Y-m-d|after:dateFrom|before_or_equal::'.date('Y-m-d'),
         ]);
-        dd($request->dateTo);
-        return view('reporte', ['hosts' => $result]);
+        $result = DB::select("SELECT fecha,hora,ping FROM enlaces WHERE enlace='".$request->host."' AND fecha>='".$request->dateFrom."' AND fecha<='".$request->dateTo."' ORDER BY fecha, hora");
+        $fechas=""; $ping="";
+
+        for($i=0;$i<count($result);$i++){
+            if ($i==0)
+            {$fechas=$fechas."'".$result[$i]->fecha."-".$result[$i]->hora."'"; $ping=$ping."".$result[$i]->ping; $i++;}
+            else{$fechas=$fechas.",'".$result[$i]->fecha."-".$result[$i]->hora."'"; $ping=$ping.",".$result[$i]->ping; $i++;}
+        }
+        $ping = "[".$ping."]";
+        $fechas = "[".$fechas."]";
+        //dd($ping,$fechas);
+        return view('reporte', ['ping' => $ping,'fechas'=>$fechas]);
 
     }
 }
