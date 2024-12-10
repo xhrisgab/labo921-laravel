@@ -9,7 +9,7 @@
 
     <title>labo921</title>
 </head>
-<body>
+<body style="background: grey">
 
     <main>
         @yield('content')
