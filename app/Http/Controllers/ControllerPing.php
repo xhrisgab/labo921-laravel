@@ -9,9 +9,9 @@ class ControllerPing extends Controller
 {
     //
     public function index(){
-        $result = DB::select('SELECT DISTINCT enlace FROM enlaces');
+        $hosts = DB::select('SELECT DISTINCT enlace FROM enlaces');
         //dd($result);
-        return view('index', ['hosts' => $result]);
+        return view('index', compact('hosts'));
 
     }
 
@@ -39,4 +39,18 @@ class ControllerPing extends Controller
         return view('reporte', ['ping' => $ping,'fechas'=>$fechas,'host'=>$request->host]);
 
     }
+
+    public function ping($id){
+
+        /****** TODO *****/
+        //ejecucion de .bat en Windows
+        //echo exec('cmd /c START .\batFiles\ping921.bat '.$host);
+
+        $fichero = file_get_contents('Ping.txt', true);
+        if(!str_contains($fichero,'Paquetes perdidos')) { $estado = TRUE;} else { $estado = FALSE;}
+        //dd($host, $fichero);
+        return view('ping', ['estado' => $estado,'host'=>$id,'fichero'=>$fichero]);
+
+    }
+
 }

@@ -47,7 +47,7 @@
                 <tr>
                     <td>{{ $loop->index+1 }}</td>
                     <td>{{ $host->enlace }}</td>
-                    <td><a href="/ping/{{$host->enlace}}">Verificar enlace...</a></td>
+                    <td><a href="/ping/{{ $host->enlace }}">Verificar enlace...</a></td>
                 </tr>
                 @endforeach
             </tbody>
